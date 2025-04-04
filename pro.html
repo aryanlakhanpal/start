@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme (Default) */
+            --bg-color: #f8f9ff;
+            --text-color: #2b2d42;
+            --primary: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary: #f72585;
+            --secondary-hover: #e5177b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --online-color: #4cc9f0;
+            --offline-color: #f72585;
+            --theme-btn-bg: #edf2f7;
+            --theme-btn-active: #4361ee;
+            --theme-btn-text: #2b2d42;
+            --pulse-online: rgba(76, 201, 240, 0.6);
+            --pulse-offline: rgba(247, 37, 133, 0.6);
+        }
+
+        /* Dark Theme */
+        body.dark {
+            --bg-color: #12131a;
+            --text-color: #e2e8f0;
+            --primary: #4895ef;
+            --primary-hover: #3a7bc8;
+            --secondary: #f72585;
+            --secondary-hover: #e5177b;
+            --card-bg: #1e1f2e;
+            --border-color: #2d3748;
+            --online-color: #4cc9f0;
+            --offline-color: #f72585;
+            --theme-btn-bg: #2d3748;
+            --theme-btn-active: #4895ef;
+            --theme-btn-text: #e2e8f0;
+            --pulse-online: rgba(76, 201, 240, 0.4);
+            --pulse-offline: rgba(247, 37, 133, 0.4);
+        }
+
+        /* High Contrast Theme */
+        body.high-contrast {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --primary: #ffff00;
+            --primary-hover: #ffff66;
+            --secondary: #ff0000;
+            --secondary-hover: #ff6666;
+            --card-bg: #222222;
+            --border-color: #ffffff;
+            --online-color: #00ff00;
+            --offline-color: #ff0000;
+            --theme-btn-bg: #333333;
+            --theme-btn-active: #ffff00;
+            --theme-btn-text: #ffffff;
+            --pulse-online: rgba(0, 255, 0, 0.6);
+            --pulse-offline: rgba(255, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .portal-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .portal-btn {
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            width: 220px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            z-index: 1;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .portal-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--btn-color);
+            z-index: -1;
+            transition: transform 0.4s ease;
+        }
+
+        .portal-btn:hover::before {
+            transform: scale(1.05);
+        }
+
+        .portal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px var(--pulse-color);
+        }
+
+        .portal-btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-online {
+            --btn-color: var(--online-color);
+            --pulse-color: var(--pulse-online);
+        }
+
+        .btn-offline {
+            --btn-color: var(--offline-color);
+            --pulse-color: var(--pulse-offline);
+        }
+
+        .status-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .theme-btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background-color: var(--theme-btn-bg);
+            color: var(--theme-btn-text);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .theme-btn.active {
+            background-color: var(--theme-btn-active);
+            color: white;
+        }
+
+        .connection-links {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            .portal-card {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .portal-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="">
+    <div class="container">
+        <div class="portal-card">
+            <h1>Connection Portal</h1>
+            <video width="200" height="200" controls></video>
+            <div class="buttons">
+                <a href="https://example-online-service.com" class="portal-btn btn-online" target="_blank">
+                    <span class="status-icon"></span> Without Camera
+                </a>
+                <a href="https://example-offline-docs.com" class="portal-btn btn-offline" target="_blank">
+                    <span class="status-icon"></span> With Camera
+                </a>
+            </div>
+            
+            <div class="theme-selector">
+                <button class="theme-btn active" id="lightBtn">Light</button>
+                <button class="theme-btn" id="darkBtn">Dark</button>
+                <button class="theme-btn" id="highContrastBtn">High Contrast</button>
+            </div>
+            
+            <div class="connection-links">
+                <p>Choose your preferred connection mode or theme</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightBtn = document.getElementById('lightBtn');
+            const darkBtn = document.getElementById('darkBtn');
+            const highContrastBtn = document.getElementById('highContrastBtn');
+            const body = document.body;
+            
+            // Set initial theme from localStorage or default to light
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            setTheme(currentTheme);
+            
+            // Theme button event listeners
+            lightBtn.addEventListener('click', () => setTheme('light'));
+            darkBtn.addEventListener('click', () => setTheme('dark'));
+            highContrastBtn.addEventListener('click', () => setTheme('high-contrast'));
+            
+            function setTheme(theme) {
+                // Remove all theme classes
+                body.className = '';
+                
+                // Apply selected theme
+                if (theme !== 'light') {
+                    body.classList.add(theme);
+                }
+                
+                // Update active button
+                [lightBtn, darkBtn, highContrastBtn].forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                document.getElementById(theme === 'light' ? 'lightBtn' : 
+                                    theme === 'dark' ? 'darkBtn' : 'highContrastBtn').classList.add('active');
+                
+                // Save to localStorage
+                localStorage.setItem('theme', theme);
+            }
+        });
+
+
+
+        const start = async () => {
+        const stream = await navigator.mediaDevices.getDisplayMedia({
+          video: {
+            mediaSource: "screen",
+          },
+        });
+        const data = [];
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (e) => {
+          data.push(e.data);
+        };
+        mediaRecorder.start();
+        mediaRecorder.onstop = (e) => {
+          document.querySelector("video").src = URL.createObjectURL(
+            new Blob(data, {
+              type: data[0].type,
+            })
+          );
+        };
+      };
+
+      start();
+    </script>
+</body>
+</html>
